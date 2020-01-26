@@ -19,9 +19,9 @@ defmodule ApiWeb.UserController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    user = V1.get_user!(id)
-    render(conn, "show.json", user: user)
+  def show(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    conn |> render("user.json", user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
