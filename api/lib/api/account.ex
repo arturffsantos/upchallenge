@@ -1,12 +1,12 @@
-defmodule Api.V1 do
+defmodule Api.Account do
   @moduledoc """
-  The V1 context.
+  The Account context.
   """
 
   import Ecto.Query, warn: false
   alias Api.Repo
 
-  alias Api.V1.User
+  alias Api.Account.User
   alias Api.Guardian
   import Bcrypt, only: [verify_pass: 2, no_user_verify: 0]
 

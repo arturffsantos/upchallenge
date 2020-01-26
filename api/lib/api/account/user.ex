@@ -1,4 +1,4 @@
-defmodule Api.V1.User do
+defmodule Api.Account.User do
   use Ecto.Schema
   import Ecto.Changeset
 

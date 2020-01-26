@@ -1,8 +1,8 @@
 defmodule ApiWeb.UserControllerTest do
   use ApiWeb.ConnCase
 
-  alias Api.V1
-  alias Api.V1.User
+  alias Api.Account
+  alias Api.Account.User
 
   @create_attrs %{
     email: "some email",
@@ -17,7 +17,7 @@ defmodule ApiWeb.UserControllerTest do
   @invalid_attrs %{email: nil, password_hash: nil, user_name: nil}
 
   def fixture(:user) do
-    {:ok, user} = V1.create_user(@create_attrs)
+    {:ok, user} = Account.create_user(@create_attrs)
     user
   end
 
