@@ -11,11 +11,13 @@ defmodule ApiWeb.TweetController do
     render(conn, "index.json", tweets: tweets)
   end
 
-  def create(conn, %{"tweet" => tweet_params}) do
-    with {:ok, %Tweet{} = tweet} <- Messages.create_tweet(tweet_params) do
+  def create(conn, %{"text" => tweet_message}) do
+    user = Guardian.Plug.current_resource(conn)
+    tweet = %{:text => tweet_message, :user_id => user.id}
+
+    with {:ok, %Tweet{} = tweet} <- Messages.create_tweet(tweet) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.tweet_path(conn, :show, tweet))
       |> render("show.json", tweet: tweet)
     end
   end

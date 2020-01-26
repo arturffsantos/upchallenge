@@ -11,7 +11,6 @@ defmodule ApiWeb.TweetView do
   end
 
   def render("tweet.json", %{tweet: tweet}) do
-    %{id: tweet.id,
-      text: tweet.text}
+    %{id: tweet.id, text: tweet.text, date: tweet.inserted_at}
   end
 end

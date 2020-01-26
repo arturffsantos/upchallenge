@@ -22,6 +22,6 @@ defmodule ApiWeb.Router do
     pipe_through [:api, :jwt_authenticated]
 
     get "/my_user", UserController, :show
-    post "/tweets", TweetController, only: [:create]
+    post "/tweets", TweetController, :create
   end
 end

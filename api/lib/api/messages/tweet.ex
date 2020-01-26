@@ -12,7 +12,7 @@ defmodule Api.Messages.Tweet do
   @doc false
   def changeset(tweet, attrs) do
     tweet
-    |> cast(attrs, [:text])
-    |> validate_required([:text])
+    |> cast(attrs, [:text, :user_id])
+    |> validate_required([:text, :user_id])
   end
 end
