@@ -73,4 +73,65 @@ defmodule Api.AccountTest do
       assert %Ecto.Changeset{} = Account.change_user(user)
     end
   end
+
+  describe "followers" do
+    alias Api.Account.Follower
+
+    @valid_attrs %{followed: 42, follower: 42}
+    @update_attrs %{followed: 43, follower: 43}
+    @invalid_attrs %{followed: nil, follower: nil}
+
+    def follower_fixture(attrs \\ %{}) do
+      {:ok, follower} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Account.create_follower()
+
+      follower
+    end
+
+    test "list_followers/0 returns all followers" do
+      follower = follower_fixture()
+      assert Account.list_followers() == [follower]
+    end
+
+    test "get_follower!/1 returns the follower with given id" do
+      follower = follower_fixture()
+      assert Account.get_follower!(follower.id) == follower
+    end
+
+    test "create_follower/1 with valid data creates a follower" do
+      assert {:ok, %Follower{} = follower} = Account.create_follower(@valid_attrs)
+      assert follower.followed == 42
+      assert follower.follower == 42
+    end
+
+    test "create_follower/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Account.create_follower(@invalid_attrs)
+    end
+
+    test "update_follower/2 with valid data updates the follower" do
+      follower = follower_fixture()
+      assert {:ok, %Follower{} = follower} = Account.update_follower(follower, @update_attrs)
+      assert follower.followed == 43
+      assert follower.follower == 43
+    end
+
+    test "update_follower/2 with invalid data returns error changeset" do
+      follower = follower_fixture()
+      assert {:error, %Ecto.Changeset{}} = Account.update_follower(follower, @invalid_attrs)
+      assert follower == Account.get_follower!(follower.id)
+    end
+
+    test "delete_follower/1 deletes the follower" do
+      follower = follower_fixture()
+      assert {:ok, %Follower{}} = Account.delete_follower(follower)
+      assert_raise Ecto.NoResultsError, fn -> Account.get_follower!(follower.id) end
+    end
+
+    test "change_follower/1 returns a follower changeset" do
+      follower = follower_fixture()
+      assert %Ecto.Changeset{} = Account.change_follower(follower)
+    end
+  end
 end
