@@ -136,7 +136,9 @@ defmodule Api.Messages do
       ** (Ecto.NoResultsError)
 
   """
-  def get_like!(id), do: Repo.get!(Like, id)
+  def get_like!(%{:user_id => user_id, :tweet_id => tweet_id}) do
+    Repo.get_by!(Like, user_id: user_id, tweet_id: tweet_id)
+  end
 
   @doc """
   Creates a like.

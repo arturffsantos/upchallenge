@@ -35,8 +35,9 @@ defmodule ApiWeb.LikeController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    like = Messages.get_like!(id)
+  def delete(conn, %{"tweet_id" => tweet_id}) do
+    user = Guardian.Plug.current_resource(conn)
+    like = Messages.get_like!(%{:user_id => user.id, :tweet_id => tweet_id})
 
     with {:ok, %Like{}} <- Messages.delete_like(like) do
       send_resp(conn, :no_content, "")
