@@ -41,6 +41,9 @@ defmodule ApiWeb.LikeController do
 
     with {:ok, %Like{}} <- Messages.delete_like(like) do
       send_resp(conn, :no_content, "")
+    else
+      :error ->
+        send_resp(conn, :error, "not found")
     end
   end
 end

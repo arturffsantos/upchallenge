@@ -13,5 +13,7 @@ defmodule Api.Messages.Like do
     like
     |> cast(attrs, [:user_id, :tweet_id])
     |> validate_required([:user_id, :tweet_id])
+    |> foreign_key_constraint(:tweet_id, message: "invalid tweet")
+    |> foreign_key_constraint(:user_id, message: "invalid user")
   end
 end

@@ -10,6 +10,6 @@ defmodule Api.Repo.Migrations.CreateLikes do
     create(index(:likes, [:user_id]))
     create(index(:likes, [:tweet_id]))
 
-    create(unique_index(:likes, [:user_id, :tweet_id], name: :user_likes_tweet_unique_index))
+    create(unique_index(:likes, [:user_id, :tweet_id]))
   end
 end
