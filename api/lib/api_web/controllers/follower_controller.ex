@@ -38,8 +38,11 @@ defmodule ApiWeb.FollowerController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    follower = Account.get_follower!(id)
+  def delete(conn, %{"followed_id" => followed_id}) do
+    user = Guardian.Plug.current_resource(conn)
+    follow = %{:follower_id => user.id, :followed_id => followed_id}
+
+    follower = Account.get_follower!(follow)
 
     with {:ok, %Follower{}} <- Account.delete_follower(follower) do
       send_resp(conn, :no_content, "")
