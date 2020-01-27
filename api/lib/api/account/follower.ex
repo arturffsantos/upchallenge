@@ -18,7 +18,7 @@ defmodule Api.Account.Follower do
     |> foreign_key_constraint(:followed_id, message: "invalid user")
     |> foreign_key_constraint(:follower_id, message: "invalid user")
     |> unique_constraint(:followed_id,
-      name: :followers_followed_id_follower_id_index,
+      name: :followers_pkey,
       message: "already following"
     )
   end

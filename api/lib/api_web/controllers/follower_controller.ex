@@ -20,8 +20,10 @@ defmodule ApiWeb.FollowerController do
       |> put_status(:created)
       |> render("show.json", follower: follower)
     else
-      :error ->
-        send_resp(conn, :error, "not found")
+      {:error, %Ecto.Changeset{}} ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{error: "invalid data"})
     end
   end
 
