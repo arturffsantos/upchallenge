@@ -31,5 +31,7 @@ defmodule ApiWeb.Router do
 
     post "/likes/:tweet_id", LikeController, :create
     delete "/likes/:tweet_id", LikeController, :delete
+
+    post "/followers/:followed_id", FollowerController, :create
   end
 end

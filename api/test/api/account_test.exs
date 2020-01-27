@@ -77,9 +77,9 @@ defmodule Api.AccountTest do
   describe "followers" do
     alias Api.Account.Follower
 
-    @valid_attrs %{followed: 42, follower: 42}
-    @update_attrs %{followed: 43, follower: 43}
-    @invalid_attrs %{followed: nil, follower: nil}
+    @valid_attrs %{followed_id: 42, follower: 42}
+    @update_attrs %{followed_id: 43, follower: 43}
+    @invalid_attrs %{followed_id: nil, follower: nil}
 
     def follower_fixture(attrs \\ %{}) do
       {:ok, follower} =

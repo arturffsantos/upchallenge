@@ -172,7 +172,9 @@ defmodule Api.Account do
       ** (Ecto.NoResultsError)
 
   """
-  def get_follower!(id), do: Repo.get!(Follower, id)
+  def get_follower!(%{:follower_id => follower_id, :followed_id => followed_id}) do
+    Repo.get_by!(Follower, follower_id: follower_id, followed_id: followed_id)
+  end
 
   @doc """
   Creates a follower.

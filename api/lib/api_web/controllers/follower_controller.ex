@@ -11,12 +11,17 @@ defmodule ApiWeb.FollowerController do
     render(conn, "index.json", followers: followers)
   end
 
-  def create(conn, %{"follower" => follower_params}) do
-    with {:ok, %Follower{} = follower} <- Account.create_follower(follower_params) do
+  def create(conn, %{"followed_id" => followed_id}) do
+    user = Guardian.Plug.current_resource(conn)
+    follow = %{:follower_id => user.id, :followed_id => followed_id}
+
+    with {:ok, %Follower{} = follower} <- Account.create_follower(follow) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.follower_path(conn, :show, follower))
       |> render("show.json", follower: follower)
+    else
+      :error ->
+        send_resp(conn, :error, "not found")
     end
   end
 

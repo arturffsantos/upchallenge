@@ -5,14 +5,14 @@ defmodule ApiWeb.FollowerControllerTest do
   alias Api.Account.Follower
 
   @create_attrs %{
-    followed: 42,
-    follower: 42
+    followed_id: 42,
+    follower_id: 42
   }
   @update_attrs %{
-    followed: 43,
-    follower: 43
+    followed_id: 43,
+    follower_id: 43
   }
-  @invalid_attrs %{followed: nil, follower: nil}
+  @invalid_attrs %{followed_id: nil, follower_id: nil}
 
   def fixture(:follower) do
     {:ok, follower} = Account.create_follower(@create_attrs)
@@ -53,7 +53,10 @@ defmodule ApiWeb.FollowerControllerTest do
   describe "update follower" do
     setup [:create_follower]
 
-    test "renders follower when data is valid", %{conn: conn, follower: %Follower{id: id} = follower} do
+    test "renders follower when data is valid", %{
+      conn: conn,
+      follower: %Follower{id: id} = follower
+    } do
       conn = put(conn, Routes.follower_path(conn, :update, follower), follower: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
