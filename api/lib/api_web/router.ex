@@ -23,5 +23,6 @@ defmodule ApiWeb.Router do
 
     get "/my_user", UserController, :show
     post "/tweets", TweetController, :create
+    get "/my_tweets", TweetController, :my_tweets
   end
 end

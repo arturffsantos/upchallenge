@@ -42,4 +42,10 @@ defmodule ApiWeb.TweetController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def my_tweets(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    tweets = Messages.list_tweets_from_user(user.id)
+    render(conn, "index.json", tweets: tweets)
+  end
 end

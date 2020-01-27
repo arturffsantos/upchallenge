@@ -21,6 +21,11 @@ defmodule Api.Messages do
     Repo.all(Tweet)
   end
 
+  def list_tweets_from_user(user_id) do
+    query = from t in Tweet, where: t.user_id == ^user_id, select: t
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single tweet.
 
