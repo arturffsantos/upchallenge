@@ -29,7 +29,7 @@ defmodule ApiWeb.Router do
     get "/users/:id/tweets", TweetController, :tweets_from_user
     post "/tweets", TweetController, :create
 
-    post "/likes", LikeController, :create
+    post "/likes/:tweet_id", LikeController, :create
     delete "/likes/:tweet_id", LikeController, :delete
   end
 end
