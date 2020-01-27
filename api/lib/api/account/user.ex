@@ -1,6 +1,12 @@
 defmodule Api.Account.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query, warn: false
+
+  alias Api.Repo
+  alias Api.Account
+  alias Api.Messages.Tweet
+  alias Api.Account.User
 
   schema "users" do
     field :email, :string
@@ -8,6 +14,14 @@ defmodule Api.Account.User do
     field :user_name, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
+
+    many_to_many(
+      :tweets,
+      Tweet,
+      join_through: "likes",
+      on_replace: :delete
+    )
+
     timestamps()
   end
 
@@ -25,6 +39,28 @@ defmodule Api.Account.User do
     |> unique_constraint(:email)
     |> unique_constraint(:user_name)
     |> put_password_hash
+  end
+
+  def changeset_update_tweets(%User{} = user, tweets) do
+    user
+    |> cast(%{}, [:id])
+    # associate tweets to the user
+    |> put_assoc(:tweets, tweets)
+  end
+
+  def upsert_user_tweets(user, tweets_ids) when is_list(tweets_ids) do
+    query = from t in Tweet, where: t.id in ^tweets_ids, select: t
+    tweets = Repo.all(query)
+
+    with {:ok, _struct} <-
+           user
+           |> User.changeset_update_tweets(tweets)
+           |> Repo.update() do
+      {:ok, Account.get_user!(user.id)}
+    else
+      error ->
+        error
+    end
   end
 
   defp put_password_hash(changeset) do

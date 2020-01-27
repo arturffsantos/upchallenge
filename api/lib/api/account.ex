@@ -37,7 +37,7 @@ defmodule Api.Account do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload([:tweets])
 
   @doc """
   Creates a user.
@@ -73,6 +73,11 @@ defmodule Api.Account do
     user
     |> User.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_user_likes(user, tweets_ids) do
+    user
+    |> User.upsert_user_tweets(tweets_ids)
   end
 
   @doc """

@@ -6,6 +6,14 @@ defmodule Api.Messages.Tweet do
   schema "tweets" do
     field :text, :string
     belongs_to :user, User
+
+    many_to_many(
+      :users,
+      User,
+      join_through: "likes",
+      on_replace: :delete
+    )
+
     timestamps()
   end
 

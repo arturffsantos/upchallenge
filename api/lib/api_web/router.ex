@@ -28,5 +28,7 @@ defmodule ApiWeb.Router do
     get "/tweets", TweetController, :index
     get "/users/:id/tweets", TweetController, :tweets_from_user
     post "/tweets", TweetController, :create
+
+    post "/likes", LikeController, :create
   end
 end
