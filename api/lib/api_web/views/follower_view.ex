@@ -11,6 +11,6 @@ defmodule ApiWeb.FollowerView do
   end
 
   def render("follower.json", %{follower: follower}) do
-    %{followed_id: follower.followed, follower_id: follower.follower}
+    %{followed_id: follower.followed_id, follower_id: follower.follower_id}
   end
 end
