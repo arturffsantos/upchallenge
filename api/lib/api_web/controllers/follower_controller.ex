@@ -44,10 +44,17 @@ defmodule ApiWeb.FollowerController do
     user = Guardian.Plug.current_resource(conn)
     follow = %{:follower_id => user.id, :followed_id => followed_id}
 
-    follower = Account.get_follower!(follow)
+    try do
+      follower = Account.get_follower!(follow)
 
-    with {:ok, %Follower{}} <- Account.delete_follower(follower) do
-      send_resp(conn, :no_content, "")
+      with {:ok, %Follower{}} <- Account.delete_follower(follower) do
+        send_resp(conn, :no_content, "")
+      end
+    rescue
+      Ecto.NoResultsError ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "not_found"})
     end
   end
 end
