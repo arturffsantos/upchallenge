@@ -15,5 +15,9 @@ defmodule Api.Messages.Like do
     |> validate_required([:user_id, :tweet_id])
     |> foreign_key_constraint(:tweet_id, message: "invalid tweet")
     |> foreign_key_constraint(:user_id, message: "invalid user")
+    |> unique_constraint(:tweet_id,
+      name: :likes_pkey,
+      message: "already likes"
+    )
   end
 end
