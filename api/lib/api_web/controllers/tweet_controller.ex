@@ -11,9 +11,9 @@ defmodule ApiWeb.TweetController do
     render(conn, "index.json", tweets: tweets)
   end
 
-  def create(conn, %{"text" => tweet_message}) do
+  def create(conn, tweet_message) do
     user = Guardian.Plug.current_resource(conn)
-    tweet = %{:text => tweet_message, :user_id => user.id}
+    tweet = %{:text => tweet_message["text"], :user_id => user.id}
 
     with {:ok, %Tweet{} = tweet} <- Messages.create_tweet(tweet) do
       conn
